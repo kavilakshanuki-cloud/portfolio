@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kavilakshan — Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #00e5a0;
+      --accent2: #7c6ff7;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --tag-bg: #1a1a2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 32px 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 24px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .header-left .label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(42px, 8vw, 72px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    h1 span {
+      display: block;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 380px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0d2b1f;
+      border: 1px solid #00e5a040;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-top: 20px;
+      white-space: nowrap;
+    }
+
+    .status-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    .header-right {
+      padding-top: 8px;
+      text-align: right;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .contact-list a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-list a:hover { color: var(--accent); }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      opacity: 0.5;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.7s ease both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+    section:nth-child(5) { animation-delay: 0.4s; }
+    section:nth-child(6) { animation-delay: 0.5s; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .section-num {
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ABOUT ── */
+    .about-text {
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 640px;
+    }
+
+    .about-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-group:hover {
+      border-color: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .skill-group-title {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 3px 0 0 3px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent2);
+      transform: translateX(4px);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .project-badge {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: #0d2b1f;
+      border: 1px solid #00e5a030;
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .edu-school {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .edu-year {
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+
+    /* ── LEARNING ── */
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .learning-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .learning-item:hover { border-color: var(--accent); }
+
+    .learning-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding-top: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    footer span { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { grid-template-columns: 1fr; }
+      .header-right { text-align: left; }
+      .contact-list li { justify-content: flex-start; }
+      .edu-card { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <p class="label">// Portfolio · CV · 2025</p>
+      <h1>Kavil<span>akshan</span></h1>
+      <p class="tagline">Aspiring Software Engineer building full-stack web applications with the MERN stack.</p>
+      <div class="status-pill">Open to opportunities</div>
+    </div>
+    <div class="header-right">
+      <ul class="contact-list">
+        <li>
+          <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <a href="mailto:kavilakshan@email.com">kavilakshan@email.com</a>
+        </li>
+        <li>
+          <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          <a href="https://github.com/kavilakshan" target="_blank">github.com/kavilakshan</a>
+        </li>
+        <li>
+          <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Kandy, Sri Lanka</span>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>About</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="about-text">
+      I'm <strong>Kavilakshan</strong>, a passionate and self-driven developer from Kandy, Sri Lanka, actively learning <strong>full-stack web development</strong> with a focus on the <strong>MERN stack</strong> (MongoDB, Express.js, React, Node.js). I'm on my journey to become a professional <strong>Software Engineer</strong>, building real-world projects to sharpen my skills every day. I enjoy turning ideas into interactive, functional web experiences and I'm eager to grow within a team environment.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <p class="skill-group-title">Frontend</p>
+        <div class="tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React.js</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-title">Backend</p>
+        <div class="tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express.js</span>
+          <span class="tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-title">Database</p>
+        <div class="tags">
+          <span class="tag">MongoDB</span>
+          <span class="tag">Mongoose</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-title">Tools & Dev</p>
+        <div class="tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">npm</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-list">
+      <div class="project-card">
+        <div>
+          <p class="project-name">Task Manager App</p>
+          <p class="project-desc">A full-stack CRUD application where users can create, update, and delete tasks. Built with React on the frontend, Node.js + Express on the backend, and MongoDB for data persistence.</p>
+          <div class="tags">
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">Express</span>
+          </div>
+        </div>
+        <span class="project-badge">MERN</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="project-name">Portfolio Website</p>
+          <p class="project-desc">A personal portfolio site built with pure HTML, CSS, and JavaScript to showcase my projects and skills. Hosted on GitHub Pages.</p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+          </div>
+        </div>
+        <span class="project-badge">Frontend</span>
+      </div>
+      <div class="project-card">
+        <div>
+          <p class="project-name">REST API — Blog Backend</p>
+          <p class="project-desc">A RESTful API for a blogging platform featuring user authentication with JWT, post creation, and comment management using Express.js and MongoDB.</p>
+          <div class="tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">Express</span>
+            <span class="tag">JWT</span>
+            <span class="tag">MongoDB</span>
+          </div>
+        </div>
+        <span class="project-badge">Backend</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <p class="edu-degree">Self-Taught — Full Stack Development</p>
+        <p class="edu-school">Online platforms: freeCodeCamp · The Odin Project · YouTube · Documentation</p>
+      </div>
+      <div class="edu-year">2024 — Present</div>
+    </div>
+  </section>
+
+  <!-- CURRENTLY LEARNING -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Currently Learning</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="learning-grid">
+      <div class="learning-item"><span class="learning-dot"></span>React Hooks & Context API</div>
+      <div class="learning-item"><span class="learning-dot"></span>State Management (Redux)</div>
+      <div class="learning-item"><span class="learning-dot"></span>TypeScript Basics</div>
+      <div class="learning-item"><span class="learning-dot"></span>Deployment (Vercel / Render)</div>
+      <div class="learning-item"><span class="learning-dot"></span>Responsive Design</div>
+      <div class="learning-item"><span class="learning-dot"></span>Data Structures & Algorithms</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Crafted with care by <span>Kavilakshan</span> · 2025</p>
+  </footer>
+
+</div>
+</body>
+</html>
